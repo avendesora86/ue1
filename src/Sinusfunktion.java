@@ -23,14 +23,16 @@ public class Sinusfunktion extends Application {
     int cursorX = 0;
     int cursorY = 200;
 
-    int b;
+    double f = 1.99;
+    double b = 1;
     double z0;
     double z1 = 8;  // Amplitude
     double z2 = 0;
     int i = 0;
+    private Group curve;
 
 
-    public void sinus(double f) {
+    public void sinus() {
         if(i > 600)
             return;
         z0 = f * z1 - b*z2;
@@ -40,7 +42,7 @@ public class Sinusfunktion extends Application {
         drawLine(i, (int)z0) ;
         i++;
         //f -= 0.01;
-        sinus(f);
+        sinus();
     }
 
     public static void main(String[] args) {
@@ -55,17 +57,18 @@ public class Sinusfunktion extends Application {
         cursorX = endX;
         cursorY = endY;
         line.setStroke(Color.RED);
-        root.getChildren().add(line);
+        curve.getChildren().add(line);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         // TODO Auto-generated method stub
         root = new Group();
+        curve = new Group();
 
         Label  fLabel = new Label("Wähle f:");
         Slider fSlider = new Slider();
-        fSlider.setMin(0);
+        fSlider.setMin(1.95);
         fSlider.setMax(1.99);
         fSlider.setValue(1.99);
         fSlider.setShowTickLabels(true);
@@ -76,10 +79,16 @@ public class Sinusfunktion extends Application {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 i = 0;
-                sinus(newValue.doubleValue());
-            }
-        });
+                z1 = 8;
+                z2 = 0;
+                curve.getChildren().clear();
+                cursorX = 0;
+                f = (double)newValue;
+                sinus();
 
+                            }
+        });
+/*
         Label  zLabel = new Label("Wähle z1:");
         Slider zSlider = new Slider();
         zSlider.setMin(0);
@@ -92,15 +101,20 @@ public class Sinusfunktion extends Application {
         zSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                z1 = newValue.doubleValue();
-
+                i = 0;
+                z1 = 8;
+                z0 = 0;
+                curve.getChildren().clear();
+                cursorX = 0;
+                b = (double)newValue;
+                sinus();
             }
-        });
+        }); */
 
         Label  bLabel = new Label("Wähle b:");
         Slider bSlider = new Slider();
-        bSlider.setMin(0);
-        bSlider.setMax(1);
+        bSlider.setMin(0.9);
+        bSlider.setMax(1.1);
         bSlider.setValue(1);
         bSlider.setShowTickLabels(true);
         bSlider.setShowTickMarks(true);
@@ -108,12 +122,18 @@ public class Sinusfunktion extends Application {
         bSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                b = newValue.intValue();
+                i = 0;
+                z1 = 8;
+                z2 = 0;
+                curve.getChildren().clear();
+                cursorX = 0;
+                b = (double)newValue;
+                sinus();
             }
         });
 
         HBox slideBox = new HBox(10);
-        slideBox.getChildren().addAll(fLabel,fSlider,zLabel,zSlider,bLabel,bSlider);
+        slideBox.getChildren().addAll(fLabel,fSlider,bLabel,bSlider);
 
 
 
@@ -123,10 +143,10 @@ public class Sinusfunktion extends Application {
 
         Rectangle panel = new Rectangle(600, 400, Color.WHITESMOKE);
         root.getChildren().addAll(panel, slideBox);
-
+        root.getChildren().add(curve);
 
         primaryStage.show();
 
-        sinus(1.99);
+        sinus();
     }
 }

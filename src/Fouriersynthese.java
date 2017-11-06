@@ -34,7 +34,7 @@ public class Fouriersynthese extends Application {
             n = (50. * Math.sin(4 * Math.PI * i / 600))
                     + ((50./9.) * Math.sin((-3*4) * Math.PI * i / 600))
                     + ((50./25.) * Math.sin((5*4) * Math.PI * i / 600))
-                    + ((50./9.) * Math.sin((-7*4) * Math.PI * i / 600));
+                    + ((50./49.) * Math.sin((-7*4) * Math.PI * i / 600));
 //            synthese += n;
             drawLine(i, (int) n);
         }

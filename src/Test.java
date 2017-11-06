@@ -4,8 +4,8 @@
 public class Test {
 
     public static void main (String  [] args){
-//    test();
-        testZwei();
+    test();
+      //  testZwei();
     }
 
     public static void test (){
